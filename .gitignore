@@ -5,7 +5,7 @@
 node_modules/
 
 # Игнорировать все .DS_Store файлы
-C:\Program Files\Desktop\JS\package.json
+package.json
 
-C:\Program Files\Desktop\JS\package-lock.json
+package-lock.json
 
