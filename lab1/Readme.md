@@ -76,8 +76,7 @@ console.log(object1.getTransactionByType("debit"));
 **Результат**: Список всех дебетовых транзакций.
 
 ### Скриншот вывода
-(Добавьте сюда скриншоты консоли, чтобы продемонстрировать вывод.)
-
+![alt text](image.png)
 ## Ответы на контрольные вопросы
 1. **Какие методы класса `TransactionAnalyzer` позволяют работать с датами?**
    - `calculateTotalAmountByDate`
@@ -95,5 +94,4 @@ console.log(object1.getTransactionByType("debit"));
 
 ## Дополнительные важные аспекты
 - Для форматирования даты и времени можно использовать библиотеку [Moment.js](https://momentjs.com/) или `Intl.DateTimeFormat`.
-- Для работы с JSON-файлами рекомендуется проверять корректность данных с помощью JSON-валидаторов.
 
