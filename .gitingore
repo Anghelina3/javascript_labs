@@ -1,0 +1,11 @@
+# Игнорировать все файлы .log
+*.log
+
+# Игнорировать папку node_modules/
+node_modules/
+
+# Игнорировать все .DS_Store файлы
+package.json
+package-lock.json
+
+
