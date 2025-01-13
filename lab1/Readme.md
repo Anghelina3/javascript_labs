@@ -133,7 +133,3 @@ let person = new Person('Alice', 25);
 1. [Официальная документация Node.js](https://nodejs.org/)
 2. [MDN Web Docs: JavaScript](https://developer.mozilla.org/ru/docs/Web/JavaScript)
 3. [Stack Overflow](https://stackoverflow.com/)
-
-## Дополнительные важные аспекты
-- Для форматирования даты и времени можно использовать библиотеку [Moment.js](https://momentjs.com/) или `Intl.DateTimeFormat`.
-
