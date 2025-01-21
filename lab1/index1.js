@@ -1,6 +1,5 @@
 const fs = require("fs");
 const path = require("path");
-
 const filePath = path.join(__dirname, "transaction.json");
 
 let transactions;
@@ -271,14 +270,9 @@ fs.readFile(filePath, "utf8", (err, data) => {
 
   let object1 = new TransactionAnalyzer(transactions);
   object1.addTransaction(newTr);
-  
-  const CHUNK_SIZE = 20;
-  for (let i = 0; i < transactions.length; i += CHUNK_SIZE) {
-    console.log("Transactions chunk:", transactions.slice(i, i + CHUNK_SIZE));
-  }
+
+ 
   console.log(object1.getAllTransaction());
-  console.log(object1.calculateTotalAmount());
-  console.log(object1.getTransactionByType("debit"));
 
 
 });
