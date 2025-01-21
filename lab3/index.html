@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <h2>Добавить транзакцию</h2>
+
+    <!-- Форма для добавления транзакции -->
+    <form id="transaction-form">
+        <input type="datetime-local" id="date" placeholder="Дата и Время" required>
+        <select id="category"required> 
+            <option> Перевод p2p </option>
+            <option> Зарплата </option>
+            <option> Кэшбэк </option>
+            <option> Еда</option>
+            <option> Шоппинг</option>
+            <option> Транспорт</option>
+            <option> Разное </option>
+
+         </select>
+        <input type="number" id="amount" placeholder="Сумма" required>
+        <input type="text" id="description" placeholder="Описание" required>
+        <button type="submit">Добавить транзакцию</button>
+    </form>
+
+    <br><br>
+    <table id="table">
+        <thead>
+            <th> ID </th>
+            <th> Дата и Время </th>
+            <th> Категория транзакции </th>
+            <th> Краткое описание транзакции </th>
+            <th> Действие </th>
+        </thead>
+
+    </table>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

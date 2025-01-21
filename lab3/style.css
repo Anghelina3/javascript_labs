@@ -1,0 +1,12 @@
+table, td, th{
+    border: 1px solid green;
+    border-collapse: collapse;
+    font-size: 19px;
+    padding: 4px;
+}
+
+input, select, button{
+    font-size: 15px;
+    padding: 4px;
+}
+
