@@ -2,7 +2,8 @@
 const transactions = [];
 
 /**
- * Добавляет новую транзакцию из таблицы в массив transactions.
+ * Добавляет новую транзакцию в массив transactions и обновляет таблицу.
+ * @param {Event} event - Событие отправки формы.
  */
 function addTransaction(event) {
     event.preventDefault(); // Останавливает перезагрузку страницы
@@ -10,60 +11,107 @@ function addTransaction(event) {
     // Получение данных из таблицы
     const date = document.getElementById('date').value;
     const category = document.getElementById('category').value;
-    const amount = document.getElementById('amount').value;
+    const amount = parseInt(document.getElementById('amount').value); // Преобразуем в число
     const description = document.getElementById('description').value;
-
 
     // Создание объекта транзакции
     const transaction = {
-        id: transactions.length + 1,
+        id: transactions.length + 1, // ID равен длине массива + 1
         date: new Date(date).toLocaleString(),
         amount: amount,
         category: category,
         description: description
     };
 
-    transactions.push(transaction);
-
-    // Отображаем новую транзакцию в таблице
-    const transactionTable = document.getElementById('table');
-
-    //Для каждой таблицы добавляем строку и данные что получили из формы
-    const row = document.createElement('tr');
-
-    if (transaction.amount > 0) {
-        row.style.backgroundColor = "green";
-    } else {
-        row.style.backgroundColor = "red";
+    const isValidDate = !isNaN(new Date(date).getTime()); // Проверка на корректность даты
+    if (!isValidDate) {
+        alert('Введите корректную дату!');
+        return;
     }
-    row.innerHTML = `
-        <td>${transaction.id}</td>
-        <td>${transaction.date}</td>
-        <td>${transaction.category}</td>
-        <td>${transaction.description.split(' ').slice(0, 4).join(' ')}</td>  <!-- Показать первые 4 слова -->
-        <td><button class="buttonDelete">Удалить</button></td> `;
-    transactionTable.appendChild(row);
+    transactions.push(transaction); // Добавляем в массив
 
-
-    // Очищаем форму
+    updateTable(); // Перестраиваем таблицу
+    calculateTotal(); // Пересчитываем сумму
     document.getElementById('transaction-form').reset();
+
 }
 
+/**
+ * Обновляет таблицу на основе массива transactions.
+ */
+function updateTable() {
+    const transactionTable = document.getElementById('table');
+    transactionTable.innerHTML = ''; // Очищаем таблицу
+
+    // Пересчитываем ID и создаем строки заново
+    transactions.forEach((transaction, index) => {
+        transaction.id = index + 1; // Обновляем ID
+
+        const row = document.createElement('tr');
+        row.style.backgroundColor = transaction.amount > 0 ? "green" : "red";
+
+        row.innerHTML = `
+            <td>${transaction.id}</td>
+            <td>${transaction.date}</td>
+            <td>${transaction.category}</td>
+            <td>${transaction.description.split(' ').slice(0, 4).join(' ')}</td>
+            <td><button class="buttonDelete">Удалить</button></td>`;
+
+        transactionTable.appendChild(row); // Добавляем строку
+    });
+
+
+}
+
+/**
+ * Удаляет транзакцию по индексу, обновляет таблицу и пересчитывает сумму.
+ * @param {number} index - Индекс удаляемой транзакции.
+ */
+function deleteTransaction(index) {
+    transactions.splice(index, 1); // Удаляем из массива
+    calculateTotal(); // Пересчитываем сумму
+    updateTable();
+}
+
+/**
+ * Пересчитывает общую сумму всех транзакций и отображает её.
+ */
+function calculateTotal() {
+    let total = document.getElementById('total-sum');
+
+    const totalSum = transactions.reduce((sum, transaction) => sum + transaction.amount, 0); // Суммируем
+    total.textContent = `Общая сумма: ${totalSum} лей`; // Отображаем
+    total.style.display = "block";
+}
+
+// Добавляем слушатель для формы
 document.getElementById('transaction-form').addEventListener('submit', addTransaction);
 
-document.getElementById('table').addEventListener('click', function(event) {
-    if (event.target && event.target.classList.contains('buttonDelete')) {
+/**
+ * Слушатель для кнопок удаления транзакций.
+ */
+document.getElementById('table').addEventListener('click', function (event) {
+    const row = event.target.closest('tr'); // Находим ближайшую строку
 
-    const row = event.target.closest('tr'); // Находим ближайшую строку таблицы
-    const rowIndex = Array.from(row.parentNode.children).indexOf(row); // Получаем индекс строки
-    deleteTransaction(Number(rowIndex)); // Удаляем транзакцию
+    if (row) {
+        if (event.target && event.target.classList.contains('buttonDelete')) {
+            const rowIndex = Array.from(row.parentNode.children).indexOf(row); // Получаем индекс строки
+            deleteTransaction(rowIndex); // Удаляем транзакцию
+        }
+        else {
+            const transactionId = row.cells[0].textContent;// Получаем ID транзакции
+            const transaction = transactions.find(t => t.id == transactionId); // Находим транзакцию по ID
+            if (transaction) {
+                const blockDescription = document.getElementById('full-description');
+                const blockDescription1 = document.getElementById('description-text');
+
+                blockDescription1.textContent = transaction.description;  // Вставляем описание транзакции
+                console.log(blockDescription1);
+                blockDescription.style.display = "block";// Отображаем блок с описанием
+
+                blockDescription1.style.display = "block";// Отображаем блок с описанием
+
+            }
+        }
     }
 })
-
-function deleteTransaction(index) {
-    const rows = document.getElementById('table').getElementsByTagName('tr');
-    rows[index].remove(); // Удаляем строку из таблицы
-
-    // Удаляем транзакцию из массива
-    transactions.splice(index, 1);
-}

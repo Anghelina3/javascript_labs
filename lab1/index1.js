@@ -100,7 +100,7 @@ fs.readFile(filePath, "utf8", (err, data) => {
     calculateTotalAmount() {
       return this.data.reduce((total, transaction) => total + parseFloat(transaction.transaction_amount), 0);
     }
-
+    
     /**
      * Вычисляет общую сумму транзакций за указанный год, месяц и день.
      * @param {number} [year] - Год.

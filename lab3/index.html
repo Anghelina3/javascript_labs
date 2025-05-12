@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Transactions</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -31,7 +31,7 @@
     </form>
 
     <br><br>
-    <table id="table">
+    <table>
         <thead>
             <th> ID </th>
             <th> Дата и Время </th>
@@ -39,9 +39,21 @@
             <th> Краткое описание транзакции </th>
             <th> Действие </th>
         </thead>
+        <tbody id="table">
+            
+        </tbody>
 
     </table>
 
+      <!-- Блок для отображения общей суммы -->
+      <div id="total-sum">Общая сумма: 0 лей</div>
+
+      <!-- Блок для отображения полного описания транзакции -->
+      <div id="full-description" style="margin-top: 20px; font-size: 1.2em;">
+          <strong>Полное описание транзакции:</strong>
+          <p id="description-text"></p>
+      </div>
+      
     <script src="script.js"></script>
 </body>
 

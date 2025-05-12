@@ -89,7 +89,7 @@ document.getElementById('transaction-form').addEventListener('submit', addTransa
 - Обработчик событий на клик на кнопку определите для элемента `<table>`
 
 ``` javascript 
-ocument.getElementById('table').addEventListener('click', function(event) {
+document.getElementById('table').addEventListener('click', function(event) {
     if (event.target && event.target.classList.contains('buttonDelete')) {
 
     const row = event.target.closest('tr'); // Находим ближайшую строку таблицы
