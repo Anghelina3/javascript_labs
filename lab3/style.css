@@ -1,18 +1,23 @@
-table, td, th{
+table, td, th {
     border: 1px solid green;
     border-collapse: collapse;
     font-size: 17px;
     padding: 4px;
 }
 
-input, select, button{
+input, select, button {
     font-size: 15px;
     padding: 4px;
 }
 
-#full-description, #total-sum{
+#full-description, #total-sum {
     display: none;
 }
 
-
-
+/* Стиль для выделения успешных или неудачных транзакций */
+tr {
+    transition: background-color 0.3s;
+}
+tr:hover {
+    background-color: #f0f0f0;
+}

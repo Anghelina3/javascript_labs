@@ -8,32 +8,33 @@ const transactions = [];
 function addTransaction(event) {
     event.preventDefault(); // Останавливает перезагрузку страницы
 
-    // Получение данных из таблицы
+    // Получение данных из формы
     const date = document.getElementById('date').value;
     const category = document.getElementById('category').value;
     const amount = parseInt(document.getElementById('amount').value); // Преобразуем в число
     const description = document.getElementById('description').value;
 
+    // Проверка корректности даты
+    const isValidDate = !isNaN(new Date(date).getTime());
+    if (!isValidDate) {
+        alert('Введите корректную дату!');
+        return;
+    }
+
     // Создание объекта транзакции
     const transaction = {
-        id: transactions.length + 1, // ID равен длине массива + 1
+        id: Date.now(), // Используем уникальный id на основе времени
         date: new Date(date).toLocaleString(),
         amount: amount,
         category: category,
         description: description
     };
 
-    const isValidDate = !isNaN(new Date(date).getTime()); // Проверка на корректность даты
-    if (!isValidDate) {
-        alert('Введите корректную дату!');
-        return;
-    }
     transactions.push(transaction); // Добавляем в массив
 
     updateTable(); // Перестраиваем таблицу
     calculateTotal(); // Пересчитываем сумму
-    document.getElementById('transaction-form').reset();
-
+    document.getElementById('transaction-form').reset(); // Очищаем форму
 }
 
 /**
@@ -44,9 +45,7 @@ function updateTable() {
     transactionTable.innerHTML = ''; // Очищаем таблицу
 
     // Пересчитываем ID и создаем строки заново
-    transactions.forEach((transaction, index) => {
-        transaction.id = index + 1; // Обновляем ID
-
+    transactions.forEach((transaction) => {
         const row = document.createElement('tr');
         row.style.backgroundColor = transaction.amount > 0 ? "green" : "red";
 
@@ -59,25 +58,27 @@ function updateTable() {
 
         transactionTable.appendChild(row); // Добавляем строку
     });
-
-
 }
 
 /**
- * Удаляет транзакцию по индексу, обновляет таблицу и пересчитывает сумму.
- * @param {number} index - Индекс удаляемой транзакции.
+ * Удаляет транзакцию по id, обновляет таблицу и пересчитывает сумму.
+ * @param {number} id - ID удаляемой транзакции.
  */
-function deleteTransaction(index) {
-    transactions.splice(index, 1); // Удаляем из массива
-    calculateTotal(); // Пересчитываем сумму
-    updateTable();
+function deleteTransaction(id) {
+    // Удаляем транзакцию с нужным ID
+    const index = transactions.findIndex(t => t.id === id);
+    if (index !== -1) {
+        transactions.splice(index, 1); // Удаляем из массива
+        calculateTotal(); // Пересчитываем сумму
+        updateTable(); // Перестраиваем таблицу
+    }
 }
 
 /**
  * Пересчитывает общую сумму всех транзакций и отображает её.
  */
 function calculateTotal() {
-    let total = document.getElementById('total-sum');
+    const total = document.getElementById('total-sum');
 
     const totalSum = transactions.reduce((sum, transaction) => sum + transaction.amount, 0); // Суммируем
     total.textContent = `Общая сумма: ${totalSum} лей`; // Отображаем
@@ -93,25 +94,19 @@ document.getElementById('transaction-form').addEventListener('submit', addTransa
 document.getElementById('table').addEventListener('click', function (event) {
     const row = event.target.closest('tr'); // Находим ближайшую строку
 
-    if (row) {
-        if (event.target && event.target.classList.contains('buttonDelete')) {
-            const rowIndex = Array.from(row.parentNode.children).indexOf(row); // Получаем индекс строки
-            deleteTransaction(rowIndex); // Удаляем транзакцию
-        }
-        else {
-            const transactionId = row.cells[0].textContent;// Получаем ID транзакции
-            const transaction = transactions.find(t => t.id == transactionId); // Находим транзакцию по ID
-            if (transaction) {
-                const blockDescription = document.getElementById('full-description');
-                const blockDescription1 = document.getElementById('description-text');
+    if (row && event.target.classList.contains('buttonDelete')) {
+        const transactionId = parseInt(row.cells[0].textContent); // Получаем ID транзакции
+        deleteTransaction(transactionId); // Удаляем транзакцию
+    } else if (row) {
+        const transactionId = parseInt(row.cells[0].textContent); // Получаем ID транзакции
+        const transaction = transactions.find(t => t.id === transactionId); // Находим транзакцию по ID
+        if (transaction) {
+            const blockDescription = document.getElementById('full-description');
+            const blockDescription1 = document.getElementById('description-text');
 
-                blockDescription1.textContent = transaction.description;  // Вставляем описание транзакции
-                console.log(blockDescription1);
-                blockDescription.style.display = "block";// Отображаем блок с описанием
-
-                blockDescription1.style.display = "block";// Отображаем блок с описанием
-
-            }
+            blockDescription1.textContent = transaction.description;  // Вставляем описание транзакции
+            blockDescription.style.display = "block"; // Отображаем блок с описанием
+            blockDescription1.style.display = "block"; // Отображаем блок с описанием
         }
     }
-})
+});

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 
 <head>
     <meta charset="UTF-8">
@@ -15,16 +15,15 @@
     <!-- Форма для добавления транзакции -->
     <form id="transaction-form">
         <input type="datetime-local" id="date" placeholder="Дата и Время" required>
-        <select id="category"required> 
-            <option> Перевод p2p </option>
-            <option> Зарплата </option>
-            <option> Кэшбэк </option>
-            <option> Еда</option>
-            <option> Шоппинг</option>
-            <option> Транспорт</option>
-            <option> Разное </option>
-
-         </select>
+        <select id="category" required>
+            <option>Перевод p2p</option>
+            <option>Зарплата</option>
+            <option>Кэшбэк</option>
+            <option>Еда</option>
+            <option>Шоппинг</option>
+            <option>Транспорт</option>
+            <option>Разное</option>
+        </select>
         <input type="number" id="amount" placeholder="Сумма" required>
         <input type="text" id="description" placeholder="Описание" required>
         <button type="submit">Добавить транзакцию</button>
@@ -33,27 +32,26 @@
     <br><br>
     <table>
         <thead>
-            <th> ID </th>
-            <th> Дата и Время </th>
-            <th> Категория транзакции </th>
-            <th> Краткое описание транзакции </th>
-            <th> Действие </th>
+            <tr>
+                <th> ID </th>
+                <th> Дата и Время </th>
+                <th> Категория транзакции </th>
+                <th> Краткое описание транзакции </th>
+                <th> Действие </th>
+            </tr>
         </thead>
-        <tbody id="table">
-            
-        </tbody>
-
+        <tbody id="table"></tbody>
     </table>
 
-      <!-- Блок для отображения общей суммы -->
-      <div id="total-sum">Общая сумма: 0 лей</div>
+    <!-- Блок для отображения общей суммы -->
+    <div id="total-sum">Общая сумма: 0 лей</div>
 
-      <!-- Блок для отображения полного описания транзакции -->
-      <div id="full-description" style="margin-top: 20px; font-size: 1.2em;">
-          <strong>Полное описание транзакции:</strong>
-          <p id="description-text"></p>
-      </div>
-      
+    <!-- Блок для отображения полного описания транзакции -->
+    <div id="full-description" style="margin-top: 20px; font-size: 1.2em;">
+        <strong>Полное описание транзакции:</strong>
+        <p id="description-text"></p>
+    </div>
+
     <script src="script.js"></script>
 </body>
 
